@@ -1,0 +1,3 @@
+# List your project dependencies here, e.g.:
+# numpy
+# pyserial
