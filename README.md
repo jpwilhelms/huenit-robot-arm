@@ -14,3 +14,9 @@ A Python project for controlling and programming the Huenit Robot Arm.
 ```bash
 python huenit_robot_arm/main.py
 ```
+
+## Vendor Robot Arm Control Module
+
+The file `robot_control/robot_direct_control.py` contains manufacturer-provided source code to control the robot arm via serial commands.  
+It is integrated as a library for hardware-level communication.  
+Please document any changes made to this file and keep the original logic intact unless modification is necessary for compatibility or bug fixing.
