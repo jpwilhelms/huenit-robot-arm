@@ -1,3 +1,2 @@
-# List your project dependencies here, e.g.:
-# numpy
-# pyserial
+pyspacemouse
+pyserial~=3.5

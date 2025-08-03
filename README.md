@@ -12,7 +12,7 @@ A Python project for controlling and programming the Huenit Robot Arm.
 ## Usage
 
 ```bash
-python huenit_robot_arm/main.py
+python huenit_robot_arm/all_commands.py
 ```
 
 ## Vendor Robot Arm Control Module

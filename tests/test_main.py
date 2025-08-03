@@ -1,5 +1,5 @@
 import unittest
-from huenit_robot_arm.main import main
+from huenit_robot_arm.all_commands import main
 
 class TestMain(unittest.TestCase):
     def test_main_runs(self):
