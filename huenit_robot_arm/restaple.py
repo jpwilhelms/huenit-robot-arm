@@ -31,7 +31,8 @@ def main():
     print( f"thickness of single card: {thickness}" )
     unsetFreeMod()
     move_height = staple_top[2] + 20
-    pressure_reduce = 5
+    pressure_reduce = 2
+    rotate = 0
 
     moveZ0( move_height )
     above_staple = staple_top.copy()
@@ -41,7 +42,10 @@ def main():
 
     for i in range( number_of_objects ):
         moveG1( above_staple )
-        suctionAngle( 0 )
+
+        if rotate != 0:
+            suctionAngle( 0 )
+
         source_pos = staple_top.copy()
         source_pos[ 2 ] -= (i * thickness) - pressure_reduce
         moveG1( source_pos )
@@ -50,7 +54,10 @@ def main():
         moveG1( above_staple )
         sleep( 2 )
         moveG1( above_target_staple )
-        suctionAngle( 90 )
+
+        if rotate != 0:
+            suctionAngle( rotate )
+
         dest_pos = staple_target.copy()
         dest_pos[ 2 ] += (i+1) * thickness
         moveG1( dest_pos )
