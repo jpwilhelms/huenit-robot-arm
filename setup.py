@@ -6,5 +6,11 @@ setup(
     description="Control and programming of the Huenit Robot Arm with Python.",
     author="jpwilhelms",
     packages=find_packages(),
-    install_requires=[],
+    install_requires=[
+        'opencv-python',
+        'loguru',
+        'numpy',
+        'pyserial',
+        'pyspacemouse',
+    ],
 )

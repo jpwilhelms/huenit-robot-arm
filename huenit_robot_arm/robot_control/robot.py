@@ -9,18 +9,16 @@ import time
 import sys
 
 '''
-구성 플로우
+Setup flow
 
-1. serial port 스캔 -> 여러개일 경우에, 예외처리 유념
-2. serial 오픈
-3. serial 에 보낼 커맨드 정의
-4. 커맨드 전송
+1. Scan serial ports and handle the case where multiple matches are found.
+2. Open the serial port.
+3. Define the commands that should be sent over serial.
+4. Transmit the commands.
 
-check list
-- 라이브러리 app의 사전 파일로 위치필요
-- 캠 때와는 다르게, generated.py 분리 필요
-- 
-
+Checklist
+- Ensure this library is available in the app's search path.
+- Unlike the camera-side scripts, generated.py should be separated.
 '''
 
 
@@ -146,13 +144,13 @@ def sendCommandNoReturn(command: str):
 
 def checkXYZ(x, y, z):
     """
-    지정된 x, y, z 좌표로 로봇이 움직일 수 있는지(G0) 검사하는 함수입니다.
+    Check whether the robot can move (G0) to the given x, y, z coordinates.
 
-    :param x: float, x 좌표
-    :param y: float, y 좌표
-    :param z: float, z 좌표
+    :param x: float, target x coordinate
+    :param y: float, target y coordinate
+    :param z: float, target z coordinate
 
-    :return: int, 참이면 1, 거짓이면 0을 리턴합니다.
+    :return: int, returns 1 if reachable, 0 otherwise.
     """
     leng = math.sqrt(x * x + y * y)
     if (leng <= 213.44 and z >= 2.182):
@@ -188,12 +186,12 @@ def checkXYZ(x, y, z):
 
 
 def moveG0(*args):
-    if len(args) == 1 and isinstance(args[0], (tuple, list)):  # 튜플이나 리스트 하나를 받았을 경우
+    if len(args) == 1 and isinstance(args[0], (tuple, list)):  # received a single tuple or list
         x, y, z = args[0]
-    elif len(args) == 3:  # 개별 인자로 받은 경우
+    elif len(args) == 3:  # received individual coordinates
         x, y, z = args
     else:
-        raise ValueError("moveG0 함수는 (x, y, z)를 개별 인자로 받거나, 하나의 튜플/리스트로 받아야 합니다.")
+        raise ValueError("moveG1 expects either three separate values or a single tuple/list (x, y, z).")
 
     command = f"G0 X{x} Y{y} Z{z}\n"
     sendCommand(command)
@@ -201,12 +199,12 @@ def moveG0(*args):
 
 
 def moveG1(*args):
-    if len(args) == 1 and isinstance(args[0], (tuple, list)):  # 튜플이나 리스트 하나를 받았을 경우
+    if len(args) == 1 and isinstance(args[0], (tuple, list)):  # received a single tuple or list
         x, y, z = args[0]
-    elif len(args) == 3:  # 개별 인자로 받은 경우
+    elif len(args) == 3:  # received individual coordinates
         x, y, z = args
     else:
-        raise ValueError("moveG0 함수는 (x, y, z)를 개별 인자로 받거나, 하나의 튜플/리스트로 받아야 합니다.")
+        raise ValueError("moveG0 expects either three separate values or a single tuple/list (x, y, z).")
 
     command = f"G1 X{x} Y{y} Z{z}\n"
     sendCommand(command)
@@ -319,12 +317,12 @@ def getDeg():
 
 
 def suctionAngle(angle, speed=60):
-    # 각도를 0~360 범위로 변환
+    # Normalize angle to the 0-360 range
     normalized_angle = angle % 360
-    if normalized_angle < 0:  # 음수일 경우 보정
+    if normalized_angle < 0:  # adjust if negative
         normalized_angle += 360
 
-    # 180 이상인지 확인
+    # Ensure the angle stays below 270 degrees
     if (normalized_angle >= 270):
         print("Unsupported degree")
         return
@@ -334,4 +332,3 @@ def suctionAngle(angle, speed=60):
         return
 
     sendCommand("M9996 A1B" + str(normalized_angle) + "C" + str(speed) + "\n")
-
